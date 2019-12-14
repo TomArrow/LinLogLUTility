@@ -19,7 +19,7 @@
                 <Label>Output (logarithmic) bit depth:</Label>
                 <TextBox Width="40" TextAlignment="Right" x:Name="txtOutputBitDepth" TextChanged="BitDepthValuesChanged">8</TextBox>
                 <Label>Calculated a-parameter:</Label>
-                <TextBox Width="100" TextAlignment="Right" x:Name="txtCalculatedAParameter" TextChanged="BitDepthValuesChanged" IsReadOnly="True"></TextBox>
+                <TextBox Width="200" TextAlignment="Right" x:Name="txtCalculatedAParameter" TextChanged="BitDepthValuesChanged" IsReadOnly="True"></TextBox>
             </WrapPanel>
             <TextBlock TextWrapping="Wrap">
 

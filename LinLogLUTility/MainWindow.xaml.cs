@@ -57,8 +57,14 @@ namespace LinLogLUTility
                 return;
             }
 
+            if(inputBitDepth <=1 || outputBitDepth <= 1)
+            {
+                // Fuck that. :)
+                return;
+            }
+
             double parameterA = Helpers.findParameter(Math.Pow(2,inputBitDepth) - 1, Math.Pow(2,outputBitDepth) - 1, TransferFunctionV1.LinToLog);
-            txtCalculatedAParameter.Text = parameterA.ToString("N6");
+            txtCalculatedAParameter.Text = parameterA.ToString("0." + new string('#', 30));
             calculatedParameterA = parameterA;
             calculatedSuccessfully = true;
 
