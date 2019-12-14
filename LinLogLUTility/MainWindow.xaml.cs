@@ -63,8 +63,10 @@ namespace LinLogLUTility
                 return;
             }
 
-            double parameterA = Helpers.findParameter(Math.Pow(2,inputBitDepth) - 1, Math.Pow(2,outputBitDepth) - 1, TransferFunctionV1.LinToLog);
+            double precisionAchieved = 0; 
+            double parameterA = Helpers.findParameter(Math.Pow(2,inputBitDepth) - 1, Math.Pow(2,outputBitDepth) - 1, TransferFunctionV1.LinToLog, out precisionAchieved);
             txtCalculatedAParameter.Text = parameterA.ToString("0." + new string('#', 30));
+            txtAchievedPrecision.Text = precisionAchieved.ToString("0." + new string('#', 30));
             calculatedParameterA = parameterA;
             calculatedSuccessfully = true;
 
