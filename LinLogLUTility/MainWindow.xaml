@@ -5,8 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LinLogLUTility"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:controls="clr-namespace:WpfMath.Controls;assembly=WpfMath"
+        Title="LinLogLUTility" Height="650" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <WrapPanel Height="50" Margin="0 20 0 0">
+                <Label>Input (linear) bit depth:</Label>
+                <TextBox Width="40" TextAlignment="Right" x:Name="txtInputBitDepth" TextChanged="BitDepthValuesChanged">12</TextBox>
+                <Label>Output (logarithmic) bit depth:</Label>
+                <TextBox Width="40" TextAlignment="Right" x:Name="txtOutputBitDepth" TextChanged="BitDepthValuesChanged">8</TextBox>
+                <Label>Calculated a-parameter:</Label>
+                <TextBox Width="100" TextAlignment="Right" x:Name="txtCalculatedAParameter" TextChanged="BitDepthValuesChanged" IsReadOnly="True"></TextBox>
+            </WrapPanel>
+            <TextBlock TextWrapping="Wrap">
+
+                This will create a pair of 1D .cube LUTs to convert from a linear colorspace to a logarithmic colorspace and back. It will basically calculate a logarithm base and a multiplier for the source value axis that results in the following conditions:
+                
+                <LineBreak></LineBreak>
+                <LineBreak></LineBreak>1. f(0) = 0
+                <LineBreak></LineBreak>2. f(1) = 1
+                <LineBreak></LineBreak>3. f(maximum input value) = maximum output value
+                <LineBreak></LineBreak>
+                <LineBreak></LineBreak>The reasoning for the first two conditions is that at the lowest levels of brightness, all information should be preserved, since that is where any slight change has the biggest impact due to the logarithmic nature of human light perception. At the same time, it makes sure that no more bits than necessary are wasted at this bottom end of brightness. There is no benefit from brightening the blacks beyond the point where 1 can be distinguished from 0, since that is all that is available anyway. Without this requirement, 0 might be 0 and 1 might result in values >1, resulting in wasted bits.
+                The third condition is self-explanatory.
+                <LineBreak></LineBreak>
+                <LineBreak></LineBreak>The mathematical equation chosen to solve this problem is as follows:
+                
+
+            </TextBlock>
+            <controls:FormulaControl Formula="f\left(x\right)=log_{a+1}\left(ax+1\right)" />
+            <TextBlock TextWrapping="Wrap">
+                This equation's graph will always move through [0,0] and [1,1]. The parameter a controls the slope so that the graph moves through [maxInput,maxOutput]. The value of a is computed via an iterative process, since I haven't been able to solve the function for a. But it's precise enough, so that's not a problem.
+                <LineBreak></LineBreak>
+                <LineBreak></LineBreak>The equation applied to the reversal LUT (Log to Linear) is the exact reverse of the above function:
+            </TextBlock>
+            <controls:FormulaControl Formula="g\left(y\right)=\frac{(a + 1)^y - 1}{a}" />
+
+            <TextBlock TextWrapping="Wrap">
+                Just enter input bit depth, output bit depth, and the a-parameter will becalculated for you and 1D LUTs for both directions will be generated.
+            </TextBlock>
+        </StackPanel>
         
+        
+        <Button Grid.Row="1" x:Name="btnGenerateLUTs" Click="BtnGenerateLUTs_Click">Generate LUT Pair</Button>
     </Grid>
 </Window>
