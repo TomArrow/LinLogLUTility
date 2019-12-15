@@ -68,6 +68,14 @@ namespace LinLogLUTility
             txtCalculatedAParameter.Text = parameterA.ToString("0." + new string('#', 30));
             txtAchievedPrecision.Text = precisionAchieved.ToString("0." + new string('#', 30));
             calculatedParameterA = parameterA;
+
+            imgCurve.Source = Helpers.BitmapToImageSource(HarryPlotter.PlotIt(200,200,(int)Math.Pow(2,inputBitDepth)-1, (int)Math.Pow(2, outputBitDepth) - 1,calculatedParameterA,TransferFunctionV1.LinToLog));
+
+            StopStepTester stopStepEquationObject = new StopStepTester(TransferFunctionV1.LinToLog);
+
+            imgCurve2.Source = Helpers.BitmapToImageSource(HarryPlotter.PlotIt(200, 200, (int)Math.Pow(2, inputBitDepth) - 1, (int)stopStepEquationObject.CallThis(Math.Pow(2, inputBitDepth) - 1,calculatedParameterA), calculatedParameterA, stopStepEquationObject.CallThis));
+
+
             calculatedSuccessfully = true;
 
         }
