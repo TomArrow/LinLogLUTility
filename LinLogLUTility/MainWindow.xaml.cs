@@ -74,7 +74,7 @@ namespace LinLogLUTility
             StopStepTester stopStepEquationObject = new StopStepTester(TransferFunctionV1.LinToLog);
 
             imgCurve2.Source = Helpers.BitmapToImageSource(HarryPlotter.PlotIt(200, 200, (int)Math.Pow(2, inputBitDepth) - 1, (int)stopStepEquationObject.CallThis(Math.Pow(2, inputBitDepth) - 1,calculatedParameterA), calculatedParameterA, stopStepEquationObject.CallThis));
-
+            
 
             calculatedSuccessfully = true;
 
